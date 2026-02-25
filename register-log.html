@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>ثبت کاربر جدید - Makian</title>
+  <style>
+    body {
+      font-family: "Vazir", Tahoma, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .form-container {
+      max-width: 400px;
+      margin: 50px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .success-message {
+      color: green;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .error-message {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .info-text {
+      font-size: 0.9em;
+      color: #555;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>ثبت کاربر جدید در سیستم مرکزی</h2>
+    <form id="central-registration-form" action="https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT_HERE" method="POST">
+      <label for="username">نام کاربری (نام و نام خانوادگی):</label>
+      <input type="text" id="username" name="username" required placeholder="نام و نام خانوادگی خود را وارد کنید" />
+
+      <label for="phone">شماره تماس:</label>
+      <input type="tel" id="phone" name="phone" required placeholder="شماره تماس" />
+
+      <label for="email">ایمیل (اختیاری):</label>
+      <input type="email" id="email" name="email" placeholder="ایمیل شما (اختیاری)" />
+
+      <label for="city">شهر:</label>
+      <input type="text" id="city" name="city" required placeholder="نام شهر" />
+
+      <label for="province">استان:</label>
+      <input type="text" id="province" name="province" required placeholder="نام استان" />
+
+      <label for="date">تاریخ ثبت نام:</label>
+      <input type="text" id="date-field" name="date" readonly />
+
+      <label for="source">منبع:</label>
+      <select name="source" id="source" disabled>
+        <option value="makian.net">makian.net</option>
+      </select>
+
+      <div class="info-text">
+        اطلاعات بالا ممکن است از طریق لینک ورود پر شده باشد. لطفاً قبل از ارسال تأیید کنید.
+      </div>
+
+      <button type="submit">ثبت اطلاعات</button>
+    </form>
+    <div id="message"></div>
+  </div>
+
+  <script>
+    // تنظیم تاریخ امروز
+    document.getElementById('date-field').value = new Date().toISOString().split('T')[0];
+
+    // --- کد جدید: خواندن پارامترهای URL و پر کردن فیلدها ---
+    window.addEventListener('DOMContentLoaded', (event) => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fname = urlParams.get('fname');
+      const lname = urlParams.get('lname');
+      const phone = urlParams.get('phone');
+      const city = urlParams.get('city');
+      const province = urlParams.get('province');
+
+      if (fname && lname) {
+        document.getElementById('username').value = `${fname} ${lname}`;
+      }
+      if (phone) {
+        document.getElementById('phone').value = phone;
+      }
+      if (city) {
+        document.getElementById('city').value = city;
+      }
+      if (province) {
+        document.getElementById('province').value = province;
+      }
+    });
+
+    document.getElementById('central-registration-form').addEventListener('submit', async function(e) {
+      e.preventDefault(); // جلوگیری از سابمیت پیش‌فرض
+
+      const formData = new FormData(this);
+      const messageDiv = document.getElementById('message');
+
+      try {
+        const response = await fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          messageDiv.innerHTML = '<div class="success-message">اطلاعات شما با موفقیت ثبت شد!</div>';
+          this.reset();
+          document.getElementById('date-field').value = new Date().toISOString().split('T')[0]; // تاریخ را دوباره تنظیم کن
+        } else {
+          throw new Error('خطا در ارسال فرم.');
+        }
+      } catch (error) {
+        messageDiv.innerHTML = '<div class="error-message">خطا در ارسال اطلاعات. لطفاً دوباره تلاش کنید.</div>';
+      }
+    });
+  </script>
+
+</body>
+</html>
