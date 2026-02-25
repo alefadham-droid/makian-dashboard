@@ -24,10 +24,6 @@ h1 {
   margin-bottom: 30px;
 }
 
-#file-input {
-  margin-top: 10px;
-}
-
 button {
   background-color: #4CAF50;
   color: white;
@@ -72,12 +68,4 @@ tr:nth-child(even) {
 
 .delete-btn:hover {
   background-color: #d32f2f;
-}
-
-.edit-btn {
-  background-color: #008CBA;
-}
-
-.edit-btn:hover {
-  background-color: #005f73;
 }
