@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>پنل مدیریت Makian</title>
+  <link rel="stylesheet" href="admin-style.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>پنل مدیریت Makian</h1>
+
+    <div id="upload-section">
+      <label for="file-input">انتخاب فایل پشتیبان (JSON)</label>
+      <input type="file" id="file-input" accept=".json" />
+      <button id="load-btn">بارگذاری داده</button>
+    </div>
+
+    <div id="dashboard-section" style="display:none;">
+      <div class="data-section">
+        <h2>کاربران</h2>
+        <table id="users-table">
+          <thead><tr><th>ID</th><th>نام کاربری</th><th>تاریخ ایجاد</th><th>عملیات</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="data-section">
+        <h2>سالن‌ها</h2>
+        <table id="halls-table">
+          <thead><tr><th>ID</th><th>نام سالن</th><th>ظرفیت</th><th>کاربر</th><th>تاریخ ایجاد</th><th>عملیات</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="data-section">
+        <h2>گزارش‌ها</h2>
+        <table id="reports-table">
+          <thead><tr><th>ID</th><th>سالن</th><th>تاریخ</th><th>دما</th><th>رطوبت</th><th>دورفن</th><th>عملیات</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <button id="export-btn">خروجی فایل JSON</button>
+    </div>
+  </div>
+
+  <script src="admin-script.js"></script>
+</body>
+
+</html>
