@@ -1,6 +1,6 @@
 let appData = null;
 
-document.getElementById('load-btn').addEventListener('click', () => {
+document.getElementById('load-btn')?.addEventListener('click', () => {
   const fileInput = document.getElementById('file-input');
   if (!fileInput.files.length) {
     alert('لطفاً یک فایل JSON انتخاب کنید.');
@@ -29,6 +29,7 @@ function renderDashboard(data) {
 
 function renderTable(selector, items, fields, generateRowHtml) {
   const tbody = document.querySelector(selector);
+  if (!tbody) return;
   tbody.innerHTML = '';
   items.forEach(item => {
     const row = document.createElement('tr');
@@ -40,11 +41,11 @@ function renderTable(selector, items, fields, generateRowHtml) {
 function deleteItem(type, id) {
   if (!appData || !appData[type]) return;
   appData[type] = appData[type].filter(item => item.id !== id && item.id !== String(id));
-  renderDashboard(appData); // Refresh view
+  renderDashboard(appData);
   console.log(`Deleted ${type} with id ${id}`);
 }
 
-document.getElementById('export-btn').addEventListener('click', () => {
+document.getElementById('export-btn')?.addEventListener('click', () => {
   if (!appData) {
     alert('ابتدا یک فایل بارگذاری کنید.');
     return;
